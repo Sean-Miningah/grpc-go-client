@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package pb; 
+
+option go_package = "github.com/Sean-Miningah/grpc-go-cleint";
+
+
+message JWTTokenRequest {
+  string token = 1;
+  string refresh_token = 2;
+}
+
+message TokenVerificationResponse {
+  bool verified = 1;
+  string token = 2;
+  string refresh_token = 3;
+}
+
+message Opportunities {
+  string name = 1;
+  string description = 2;
+  string organisation = 3;
+}
+
+message OpportunityAnalyticsRequest {
+  string organisation = 1;
+  string name = 2;
+  string page = 3;
+}
+
+message OpportunityAnalyticsResponse {
+  int64 count = 1;
+  int64 current_page = 2; 
+  int64 previous_page = 3; 
+  repeated Opportunities data = 4; 
+}
+
+message LeadStatus {
+  string name = 1;
+  string description = 2; 
+  string organisation = 3;
+}
+
+message LeadStatusRequest {
+  string organisation = 1;
+  string name = 2;
+  string page = 3;
+}
+
+message LeadStatusResponse {
+  int64 count = 1;
+  int64 current_page = 2;
+  int64 previous_page = 3;
+  repeated LeadStatus data = 4;
+}
+
+message TotalAccLeadContactDealRequest {
+  string organisation = 1;
+}
+
+message TotalAccLeadContactDealResponse {
+  int64 accountCount = 1;
+  int64 contactCount = 2;
+  int64 leadCount = 3;
+  int64 dealCount = 4;
+}
+
+service CuratedAnalytics {
+    rpc VerifyRequestToken(JWTTokenRequest) returns (TokenVerificationResponse) {};
+    rpc GetOpportunities(OpportunityAnalyticsRequest) returns (OpportunityAnalyticsResponse) {};
+    rpc GetLeadStatus(LeadStatusRequest) returns (LeadStatusResponse) {}
+    rpc GetTotalAccLeadContactDeal(TotalAccLeadContactDealRequest) returns (TotalAccLeadContactDealResponse) {}
+}
